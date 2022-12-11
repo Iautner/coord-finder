@@ -30,25 +30,6 @@ public class CoordCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx, net.minecraft.commands.Commands.CommandSelection environment) {
         LiteralArgumentBuilder<CommandSourceStack> coordsBuilder = Commands.literal("coords");
-
-        coordsBuilder.then(Commands.literal("player").then(Commands.argument("target", EntityArgument.player()).executes(context -> {
-            ServerPlayer player = EntityArgument.getPlayer(context, "target");
-
-            if (CoordFinder.HIDDEN_PLAYERS.getOrDefault(player.getUUID(), false)) {
-                context.getSource().sendSuccess(Component.literal("Player ").append(player.getDisplayName()).append(Component.literal(" is hidden.")), false);
-                return 1;
-            }
-
-            context.getSource().sendSuccess(Component.literal("Player ")
-                            .append(player.getDisplayName())
-                            .append(Component.literal(" is at "))
-                            .append(fromLocation(Location.fromPlayer(player)))
-                            .append(".")
-                    , false);
-
-            return 1;
-        })));
-
         coordsBuilder.then(Commands.literal("setplace")
                 .then(Commands.argument("name", StringArgumentType.string())
                         .then(Commands.argument("location", Vec3Argument.vec3())
